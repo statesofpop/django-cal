@@ -1,0 +1,38 @@
+Django app to enable exporting of events to iCalendar files. 
+Imitates behavior of django.contrib.syndication and is based upon vobject
+(http://vobject.skyhouseconsulting.com/).
+
+Heavy inspiration came from Christian Joergensen 
+(http://www.technobabble.dk/2008/mar/06/exposing-calendar-events-using-icalendar-django/)
+and Derek Willis (http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/).
+
+Initialliy developed by Maik Hoepfel (http://maikhoepfel.de),
+for Christopher Dickes (http://statesofpop.de).
+    
+Documentation:
+The following parameters work analagous to how they're implemented in 
+django.contrib.syndication. That means, the framework checks in the following
+order: self.$param(obj), self.$param(), self.$param; obj being the object 
+returned by self.get_object. 
+
+Please see contrib.syndication documentation for further explanation:
+http://docs.djangoproject.com/en/1.2/ref/contrib/syndication/
+
+    get_object(self, request, *args, **kwargs)    
+                    Can be overriden to allow for more complex events.
+                    Optional, defaults to None.
+    
+    items           Returns the list of events.
+                    Must be set.
+    filename        Filename of the file returned in the view. 
+                    Optional, defaults to 'events.ics'. 
+    item_summary    The "title" of the item.
+                    Optional, defaults to unicode representation of item.
+    item_uid        All correspond to their vEvent equivalents.
+    item_start      All optional, all default to None.
+    item_end
+    item_location
+    item_last_modified
+    item_created
+
+    
