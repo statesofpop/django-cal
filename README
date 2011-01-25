@@ -8,24 +8,34 @@ and Derek Willis (http://blog.thescoop.org/archives/2007/07/31/django-ical-and-v
 
 Initialliy developed by Maik Hoepfel (http://maikhoepfel.de),
 for Christopher Dickes (http://statesofpop.de).
+
+For convenience reasons, this app ships with its own copy of vobject.
     
 Documentation:
+Please also see contrib.syndication documentation, django_cal copies its
+behavior: http://docs.djangoproject.com/en/1.2/ref/contrib/syndication/
+
+    get_object(self, request, *args, **kwargs)    
+                    Can be overriden to allow for more complex events,
+                    see syndication documentation.
+                    Optional, defaults to None.
+       
 The following parameters work analagous to how they're implemented in 
 django.contrib.syndication. That means, the framework checks in the following
 order: self.$param(obj), self.$param(), self.$param; obj being the object 
 returned by self.get_object. 
-
-Please see contrib.syndication documentation for further explanation:
-http://docs.djangoproject.com/en/1.2/ref/contrib/syndication/
-
-    get_object(self, request, *args, **kwargs)    
-                    Can be overriden to allow for more complex events.
-                    Optional, defaults to None.
     
     items           Returns the list of events.
                     Must be set.
     filename        Filename of the file returned in the view. 
-                    Optional, defaults to 'events.ics'. 
+                    Optional, defaults to 'events.ics'.
+    cal_name        Name of the calendar. Is only written to .ics file if
+                    there's more than one event.
+                    Optional, defaults to None.
+    cal_desc        Description of the calendar. Is only written to .ics file 
+                    if there's more than one event.
+                    Optional, defaults to None.
+    
     item_summary    The "title" of the item.
                     Optional, defaults to unicode representation of item.
     item_uid        All correspond to their vEvent equivalents.
