@@ -17,6 +17,7 @@ EVENT_ITEMS = (
     ('uid', 'item_uid'),
     ('dtstart', 'item_start'),
     ('dtend', 'item_end'),
+    ('duration', 'item_duration'),
     ('summary', 'item_summary'),
     ('location', 'item_location'),
     ('url', 'item_url'),

@@ -10,8 +10,11 @@ Heavy inspiration came from Christian Joergensen
 and Derek Willis (http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/).
     
 Documentation:
-Please also see contrib.syndication documentation, django_cal copies its
+Please also see contrib.syndication documentation, django_cal imitates its
 behavior: http://docs.djangoproject.com/en/1.2/ref/contrib/syndication/
+Please also see vObject behavior regarding start and end of events. In short:
+Use Date objects for all-day events, DateTime for more granular control. 
+Define either duration or end time, never both.
 
     get_object(self, request, *args, **kwargs)    
                     Can be overriden to allow for more complex events,
@@ -32,11 +35,17 @@ returned by self.get_object.
     cal_desc        Description of the calendar. 
                     Optional, defaults to None.
     
+
     item_summary    The "title" of the item.
                     Optional, defaults to unicode representation of item.
+
+    item_end        Duration or end time of item.
+    item_duration   Optional, defaults to None. Must not define both.
+    
     item_uid        All correspond to their vEvent equivalents.
     item_start      All optional, all default to None.
-    item_end
+    item_url
+    item_comment
     item_location
     item_last_modified
     item_created

@@ -1,8 +1,0 @@
-- decide upon license
-- investigate whole-day/multiple day behavior, document it
-- investigate what item_uid is used for and if it is necessary; maybe add
-  capabilities to add custom vobject shyte
-- add timezone support
-- add tests
-
-- Release!
