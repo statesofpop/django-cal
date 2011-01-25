@@ -19,6 +19,8 @@ EVENT_ITEMS = (
     ('dtend', 'item_end'),
     ('summary', 'item_summary'),
     ('location', 'item_location'),
+    ('url', 'item_url'),
+    ('comment', 'item_comment'),
     ('last_modified', 'item_last_modified'),
     ('created', 'item_created'),
 )
