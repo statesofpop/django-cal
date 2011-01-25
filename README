@@ -27,11 +27,9 @@ returned by self.get_object.
                     Must be set.
     filename        Filename of the file returned in the view. 
                     Optional, defaults to 'events.ics'.
-    cal_name        Name of the calendar. Is only written to .ics file if
-                    there's more than one event.
+    cal_name        Name of the calendar. 
                     Optional, defaults to None.
-    cal_desc        Description of the calendar. Is only written to .ics file 
-                    if there's more than one event.
+    cal_desc        Description of the calendar. 
                     Optional, defaults to None.
     
     item_summary    The "title" of the item.

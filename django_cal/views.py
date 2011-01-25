@@ -75,14 +75,13 @@ class Events(object):
         items = self.__get_dynamic_attr("items", obj)
         cal_name = self.__get_dynamic_attr("cal_name", obj)
         cal_desc = self.__get_dynamic_attr("cal_desc", obj)
-        # Add calendar name and description if we're serving more than one event
-        if len(items) > 1:
-            if cal_name:
-                cal.add('x-wr-calname')
-                cal.x_wr_calname.value = cal_name
-            if cal_desc:
-                cal.add('x-wr-caldesc')
-                cal.x_wr_caldesc.value = cal_desc
+        # Add calendar name and description if set 
+        if cal_name:
+            cal.add('x-wr-calname')
+            cal.x_wr_calname.value = cal_name
+        if cal_desc:
+            cal.add('x-wr-caldesc')
+            cal.x_wr_caldesc.value = cal_desc
 
         for item in items:
             event = cal.add('vevent')
