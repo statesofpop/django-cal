@@ -23,7 +23,7 @@ EVENT_ITEMS = (
     ('location', 'item_location'),
     ('url', 'item_url'),
     ('comment', 'item_comment'),
-    ('last_modified', 'item_last_modified'),
+    ('last-modified', 'item_last_modified'),
     ('created', 'item_created'),
 )
 
