@@ -46,6 +46,7 @@ returned by self.get_object.
 
     item_uid        All correspond to their vEvent equivalents.
     item_start      All optional, all default to None.
+    item_summary
     item_comment
     item_location
     item_last_modified
