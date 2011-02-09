@@ -97,9 +97,12 @@ class Events(object):
 
     def get_object(self, request, *args, **kwargs):
         return None
-    
+
     def item_summary(self, item):
         return force_unicode(item)
+
+    def item_url(self, item):
+        return getattr(item, 'get_absolute_url', lambda: None)()
 
     def filename(self, item):
         return u"events.ics"

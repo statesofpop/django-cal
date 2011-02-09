@@ -41,10 +41,11 @@ returned by self.get_object.
 
     item_end        Duration or end time of item.
     item_duration   Optional, defaults to None. Must not define both.
-    
+
+    item_url        Optional, default calls item.get_absolute_url()
+
     item_uid        All correspond to their vEvent equivalents.
     item_start      All optional, all default to None.
-    item_url
     item_comment
     item_location
     item_last_modified
