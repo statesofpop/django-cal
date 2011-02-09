@@ -43,6 +43,14 @@ returned by self.get_object.
     item_duration   Optional, defaults to None. Must not define both.
 
     item_url        Optional, default calls item.get_absolute_url()
+                    Should return a URL with the fully-qualified domain and
+                    protocol (e.g. "http://www.example.com/blog/") or an
+                    absolute path (e.g. '/events/'). If only a path is
+                    present, the 'django.contrib.sites' app will be used
+                    to insert the domain of the current site.
+                    Note: To find the current site, 'django.contrib.sites'
+                          must be in your settings.INSTALLED_APPS (it is
+                          there by default)
 
     item_uid        All correspond to their vEvent equivalents.
     item_start      All optional, all default to None.

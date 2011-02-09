@@ -11,6 +11,14 @@ import vobject
 
 from django.http import HttpResponse, Http404
 from django.utils.encoding import force_unicode
+from django.conf import settings
+from django.contrib.syndication.views import add_domain
+
+if 'django.contrib.sites' in settings.INSTALLED_APPS:
+    from django.contrib.sites.models import get_current_site
+else:
+    get_current_site = None
+
 
 # Mapping of iCalendar event attributes to prettier names.
 EVENT_ITEMS = (
@@ -85,11 +93,22 @@ class Events(object):
             cal.add('x-wr-caldesc')
             cal.x_wr_caldesc.value = cal_desc
 
+        if get_current_site:
+            current_site = get_current_site(request)
+        else:
+            current_site = None
+
         for item in items:
             event = cal.add('vevent')
             for vkey, key in EVENT_ITEMS:
                 value = self.__get_dynamic_attr(key, item)
                 if value:
+                    if vkey == 'url' and current_site:
+                        value = add_domain(
+                            current_site.domain,
+                            value,
+                            request.is_secure(),
+                        )
                     event.add(vkey).value = value
         return cal
 
