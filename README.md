@@ -5,14 +5,19 @@ Django app to enable exporting of events to iCalendar files.
 Imitates behavior of django.contrib.syndication and is based upon vobject
 (<http://vobject.skyhouseconsulting.com/>).
 
-Heavy inspiration came from Christian Joergensen (<http://www.technobabble.dk/2008/mar/06/exposing-calendar-events-using-icalendar-django/>) and Derek Willis (<http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/>).
+Heavy inspiration came from Christian Joergensen
+(<http://www.technobabble.dk/2008/mar/06/exposing-calendar-events-using-icalendar-django/>)
+and Derek Willis (<http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/>).
     
 Documentation
 -------------
 
-Please also see contrib.syndication documentation, django_cal imitates its behavior: <http://docs.djangoproject.com/en/1.2/ref/contrib/syndication/>.
+Please also see contrib.syndication documentation, django_cal imitates its
+behavior: <http://docs.djangoproject.com/en/1.2/ref/contrib/syndication/>.
 
-And please also see vObject behavior regarding start and end of events. In short: Use Date objects for all-day events, DateTime for more granular control. Define either duration or end time, never both.
+And please also see vObject behavior regarding start and end of events. In short:
+Use Date objects for all-day events, DateTime for more granular control.
+Define either duration or end time, never both.
 
     get_object(self, request, *args, **kwargs)
                     Can be overriden to allow for more complex events,
