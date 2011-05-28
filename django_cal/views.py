@@ -8,7 +8,6 @@
 """
 
 import vobject
-
 from django.http import HttpResponse, Http404
 from django.utils.encoding import force_unicode
 
@@ -73,16 +72,15 @@ class Events(object):
     def get_ical(self, obj, request):
         """ Returns a populated iCalendar instance. """
         cal = vobject.iCalendar()
+		cal.add('method').value = 'PUBLISH'  # IE/Outlook needs this
         items = self.__get_dynamic_attr("items", obj)
         cal_name = self.__get_dynamic_attr("cal_name", obj)
         cal_desc = self.__get_dynamic_attr("cal_desc", obj)
         # Add calendar name and description if set 
         if cal_name:
-            cal.add('x-wr-calname')
-            cal.x_wr_calname.value = cal_name
+            cal.add('x-wr-calname').value = cal_name
         if cal_desc:
-            cal.add('x-wr-caldesc')
-            cal.x_wr_caldesc.value = cal_desc
+            cal.add('x-wr-caldesc').value = cal_desc
 
         for item in items:
             event = cal.add('vevent')
