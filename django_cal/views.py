@@ -10,6 +10,14 @@
 import vobject
 from django.http import HttpResponse, Http404
 from django.utils.encoding import force_unicode
+from django.conf import settings
+from django.contrib.syndication.views import add_domain
+
+if 'django.contrib.sites' in settings.INSTALLED_APPS:
+    from django.contrib.sites.models import get_current_site
+else:
+    get_current_site = None
+
 
 # Mapping of iCalendar event attributes to prettier names.
 EVENT_ITEMS = (
@@ -18,10 +26,11 @@ EVENT_ITEMS = (
     ('dtend', 'item_end'),
     ('duration', 'item_duration'),
     ('summary', 'item_summary'),
+    ('description', 'item_description'),
     ('location', 'item_location'),
     ('url', 'item_url'),
     ('comment', 'item_comment'),
-    ('last_modified', 'item_last_modified'),
+    ('last-modified', 'item_last_modified'),
     ('created', 'item_created'),
 )
 
@@ -72,7 +81,7 @@ class Events(object):
     def get_ical(self, obj, request):
         """ Returns a populated iCalendar instance. """
         cal = vobject.iCalendar()
-		cal.add('method').value = 'PUBLISH'  # IE/Outlook needs this
+        cal.add('method').value = 'PUBLISH'  # IE/Outlook needs this
         items = self.__get_dynamic_attr("items", obj)
         cal_name = self.__get_dynamic_attr("cal_name", obj)
         cal_desc = self.__get_dynamic_attr("cal_desc", obj)
@@ -82,11 +91,22 @@ class Events(object):
         if cal_desc:
             cal.add('x-wr-caldesc').value = cal_desc
 
+        if get_current_site:
+            current_site = get_current_site(request)
+        else:
+            current_site = None
+
         for item in items:
             event = cal.add('vevent')
             for vkey, key in EVENT_ITEMS:
                 value = self.__get_dynamic_attr(key, item)
                 if value:
+                    if vkey == 'url' and current_site:
+                        value = add_domain(
+                            current_site.domain,
+                            value,
+                            request.is_secure(),
+                        )
                     event.add(vkey).value = value
         return cal
 
@@ -94,9 +114,12 @@ class Events(object):
 
     def get_object(self, request, *args, **kwargs):
         return None
-    
+
     def item_summary(self, item):
         return force_unicode(item)
+
+    def item_url(self, item):
+        return getattr(item, 'get_absolute_url', lambda: None)()
 
     def filename(self, item):
         return u"events.ics"
