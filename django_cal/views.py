@@ -8,6 +8,7 @@
 """
 
 import vobject
+from django.db.models import ObjectDoesNotExist
 from django.http import HttpResponse, Http404
 from django.utils.encoding import force_unicode
 from django.conf import settings

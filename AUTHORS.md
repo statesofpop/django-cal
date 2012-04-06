@@ -11,3 +11,4 @@ Other **CONTRIBUTORS**:
 
   - Gabriel Grant <g@briel.ca>
   - Tuk Bredsdorff
+  - Alexander Yakovlev <ayakovlev@rambler.ru>
