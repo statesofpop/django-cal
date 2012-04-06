@@ -80,7 +80,8 @@ class Events(object):
         except ObjectDoesNotExist:
             raise Http404('Events object does not exist.')
         ical = self.get_ical(obj, request)
-        response = HttpResponse(ical.serialize(), mimetype='text/calendar')
+        response = HttpResponse(ical.serialize(),
+            mimetype='text/calendar;charset=' + settings.DEFAULT_CHARSET)
         filename = self.__get_dynamic_attr('filename', obj)
         # following added for IE, see
         # http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/
