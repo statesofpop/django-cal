@@ -72,4 +72,4 @@ Dependencies
 ------------
 
   * [vObject](http://vobject.skyhouseconsulting.com/)
-  * [dateutil](http://http://labix.org/python-dateutil)
+  * [dateutil](http://labix.org/python-dateutil/)
