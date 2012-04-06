@@ -43,6 +43,10 @@ returned by `self.get_object`.
 
     item_end        Duration or end time of item.
     item_duration   Optional, defaults to None. Must not define both.
+    
+    item_rruleset   Optional, defaults to None.
+                    Should return dateutil.rruleset instance
+                    for recurrent events.
 
     item_url        Optional, default calls item.get_absolute_url()
                     Should return a URL with the fully-qualified domain and
@@ -57,6 +61,7 @@ returned by `self.get_object`.
     item_uid        All correspond to their vEvent equivalents.
     item_start      All optional, all default to None.
     item_description
+    item_categories
     item_comment
     item_location
     item_last_modified
@@ -67,3 +72,4 @@ Dependencies
 ------------
 
   * [vObject](http://vobject.skyhouseconsulting.com/)
+  * [dateutil](http://http://labix.org/python-dateutil)
