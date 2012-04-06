@@ -12,10 +12,45 @@ from django.db.models import ObjectDoesNotExist
 from django.http import HttpResponse, Http404
 from django.utils.encoding import force_unicode
 from django.conf import settings
+
 from django.contrib.syndication.views import add_domain
+if add_domain.func_code.co_argcount < 3:
+    # Django <= 1.2
+    # Source: Django 1.4 django.contrib.syndication.views
+    from django.utils.encoding import iri_to_uri
+
+    def add_domain(domain, url, secure=False):
+        protocol = 'https' if secure else 'http'
+        if url.startswith('//'):
+            # Support network-path reference (see #16753) - RSS requires a protocol
+            url = '%s:%s' % (protocol, url)
+        elif not (url.startswith('http://')
+                or url.startswith('https://')
+                or url.startswith('mailto:')):
+            # 'url' must already be ASCII and URL-quoted, so no need for encoding
+            # conversions here.
+            url = iri_to_uri(u'%s://%s%s' % (protocol, domain, url))
+        return url
 
 if 'django.contrib.sites' in settings.INSTALLED_APPS:
-    from django.contrib.sites.models import get_current_site
+    try:
+        # Django > 1.2
+        from django.contrib.sites.models import get_current_site
+    except ImportError:
+        # Django <= 1.2
+        # Source: Django 1.4 django.contrib.sites.models
+        from django.contrib.sites.models import Site, RequestSite
+
+        def get_current_site(request):
+            """
+            Checks if contrib.sites is installed and returns either the current
+            ``Site`` object or a ``RequestSite`` object based on the request.
+            """
+            if Site._meta.installed:
+                current_site = Site.objects.get_current()
+            else:
+                current_site = RequestSite(request)
+            return current_site
 else:
     get_current_site = None
 
