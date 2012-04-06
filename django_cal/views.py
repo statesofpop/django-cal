@@ -68,6 +68,8 @@ EVENT_ITEMS = (
     ('comment', 'item_comment'),
     ('last-modified', 'item_last_modified'),
     ('created', 'item_created'),
+    ('categories', 'item_categories'),
+    ('rruleset', 'item_rruleset')
 )
 
 class Events(object):
@@ -137,13 +139,16 @@ class Events(object):
             for vkey, key in EVENT_ITEMS:
                 value = self.__get_dynamic_attr(key, item)
                 if value:
-                    if vkey == 'url' and current_site:
-                        value = add_domain(
-                            current_site.domain,
-                            value,
-                            request.is_secure(),
-                        )
-                    event.add(vkey).value = value
+                    if vkey == 'rruleset':
+                        event.rruleset = value
+                    else:
+                        if vkey == 'url' and current_site:
+                            value = add_domain(
+                                current_site.domain,
+                                value,
+                                request.is_secure(),
+                            )
+                        event.add(vkey).value = value
         return cal
 
     # ONLY DEFAULT PARAMETERS FOLLOW #
