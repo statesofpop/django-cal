@@ -8,13 +8,49 @@
 """
 
 import vobject
+from django.db.models import ObjectDoesNotExist
 from django.http import HttpResponse, Http404
 from django.utils.encoding import force_unicode
 from django.conf import settings
+
 from django.contrib.syndication.views import add_domain
+if add_domain.func_code.co_argcount < 3:
+    # Django <= 1.2
+    # Source: Django 1.4 django.contrib.syndication.views
+    from django.utils.encoding import iri_to_uri
+
+    def add_domain(domain, url, secure=False):
+        protocol = 'https' if secure else 'http'
+        if url.startswith('//'):
+            # Support network-path reference (see #16753) - RSS requires a protocol
+            url = '%s:%s' % (protocol, url)
+        elif not (url.startswith('http://')
+                or url.startswith('https://')
+                or url.startswith('mailto:')):
+            # 'url' must already be ASCII and URL-quoted, so no need for encoding
+            # conversions here.
+            url = iri_to_uri(u'%s://%s%s' % (protocol, domain, url))
+        return url
 
 if 'django.contrib.sites' in settings.INSTALLED_APPS:
-    from django.contrib.sites.models import get_current_site
+    try:
+        # Django > 1.2
+        from django.contrib.sites.models import get_current_site
+    except ImportError:
+        # Django <= 1.2
+        # Source: Django 1.4 django.contrib.sites.models
+        from django.contrib.sites.models import Site, RequestSite
+
+        def get_current_site(request):
+            """
+            Checks if contrib.sites is installed and returns either the current
+            ``Site`` object or a ``RequestSite`` object based on the request.
+            """
+            if Site._meta.installed:
+                current_site = Site.objects.get_current()
+            else:
+                current_site = RequestSite(request)
+            return current_site
 else:
     get_current_site = None
 
@@ -32,6 +68,8 @@ EVENT_ITEMS = (
     ('comment', 'item_comment'),
     ('last-modified', 'item_last_modified'),
     ('created', 'item_created'),
+    ('categories', 'item_categories'),
+    ('rruleset', 'item_rruleset')
 )
 
 class Events(object):
@@ -42,7 +80,8 @@ class Events(object):
         except ObjectDoesNotExist:
             raise Http404('Events object does not exist.')
         ical = self.get_ical(obj, request)
-        response = HttpResponse(ical.serialize(), mimetype='text/calendar')
+        response = HttpResponse(ical.serialize(),
+            mimetype='text/calendar;charset=' + settings.DEFAULT_CHARSET)
         filename = self.__get_dynamic_attr('filename', obj)
         # following added for IE, see
         # http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/
@@ -101,13 +140,16 @@ class Events(object):
             for vkey, key in EVENT_ITEMS:
                 value = self.__get_dynamic_attr(key, item)
                 if value:
-                    if vkey == 'url' and current_site:
-                        value = add_domain(
-                            current_site.domain,
-                            value,
-                            request.is_secure(),
-                        )
-                    event.add(vkey).value = value
+                    if vkey == 'rruleset':
+                        event.rruleset = value
+                    else:
+                        if vkey == 'url' and current_site:
+                            value = add_domain(
+                                current_site.domain,
+                                value,
+                                request.is_secure(),
+                            )
+                        event.add(vkey).value = value
         return cal
 
     # ONLY DEFAULT PARAMETERS FOLLOW #
