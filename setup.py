@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='django-cal',
-    version='0.2',
+    version='0.2.1',
     author='Maik Hoepfel',
     author_email = 'm@maikhoepfel.de',
     description = ('Django app to enable exporting of events to iCalendar files.'),
