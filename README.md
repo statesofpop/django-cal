@@ -76,8 +76,6 @@ Define either duration or end time, never both.
 `self.get_object` can be overriden to allow for more complex events, as is possible for
 [syndication feeds](https://docs.djangoproject.com/en/1.2/ref/contrib/syndication/#a-complex-example).
 
-
-    
 ## Dependencies ##
 
   * [vObject](http://vobject.skyhouseconsulting.com/)
