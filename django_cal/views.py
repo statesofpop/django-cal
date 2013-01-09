@@ -1,12 +1,3 @@
-""" Django app to enable exporting of events to iCalendar files.
-    Imitates behavior of django.contrib.syndication.
-
-    Heavy inspiration came from Christian Joergensen
-        http://www.technobabble.dk/2008/mar/06/exposing-calendar-events-using-icalendar-django/
-    and Derek Willis
-        http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/ .
-"""
-
 import vobject
 from django.db.models import ObjectDoesNotExist
 from django.http import HttpResponse, Http404
