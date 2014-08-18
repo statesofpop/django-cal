@@ -17,7 +17,7 @@ and Derek Willis (<http://blog.thescoop.org/archives/2007/07/31/django-ical-and-
 ### Overview ###
 
 Please see Django's syndication feed framework documentation, django_cal imitates its
-behavior: <http://docs.djangoproject.com/en/1.2/ref/contrib/syndication/>.
+behavior: <https://docs.djangoproject.com/en/1.6/ref/contrib/syndication/>.
 
 
 ### Defining event properties ###
