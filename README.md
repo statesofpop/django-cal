@@ -71,6 +71,22 @@ django-cal imitates vobject behavior regarding start and end of events. In short
 Use Date objects for all-day events, DateTime for more granular control.
 Define either duration or end time, never both.
 
+## Timezones ###
+
+If you need timezone support, use `pytz.timezone` to create an "aware" datetime object for 
+`item_start` and `item_end` and set it to UTC. A user reported that Gmail, Outlook, 
+Apple Mail, etc. are properly displaying it in the user's local timezone upon receipt.
+
+Example::
+```
+from pytz import timezone
+
+# dt is a naive datetime object known to represent US/Eastern time
+loc_dt = timezone('US/Eastern').localize(dt)
+utc = timezone('UTC')
+aware_datetime = loc_dt.astimezone(utc)
+```
+
 ### Complex behavior ###
 
 `self.get_object` can be overriden to allow for more complex events, as is possible for
