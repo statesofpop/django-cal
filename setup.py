@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='django-cal',
-    version='0.2.1',
+    version='0.2.2',
     author='Maik Hoepfel',
     author_email = 'm@maikhoepfel.de',
     description = ('Django app to enable exporting of events to iCalendar files.'),
@@ -16,11 +16,12 @@ setup(
         'Django',
     ],
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         'License :: OSI Approved :: BSD License',
         'Framework :: Django',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2 :: Only',
     ],
 )
