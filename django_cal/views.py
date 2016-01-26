@@ -5,6 +5,9 @@ from django.utils.encoding import force_unicode
 from django.conf import settings
 
 from django.contrib.syndication.views import add_domain
+import django
+
+
 if add_domain.func_code.co_argcount < 3:
     # Django <= 1.2
     # Source: Django 1.4 django.contrib.syndication.views
@@ -24,10 +27,12 @@ if add_domain.func_code.co_argcount < 3:
         return url
 
 if 'django.contrib.sites' in settings.INSTALLED_APPS:
-    try:
-        # Django > 1.2
+    if django.VERSION >= (1, 7):
+        from django.contrib.sites.shortcuts import get_current_site
+    elif django.VERSION >= (1, 3):
+        # Django >= 1.3
         from django.contrib.sites.models import get_current_site
-    except ImportError:
+    else:
         # Django <= 1.2
         # Source: Django 1.4 django.contrib.sites.models
         from django.contrib.sites.models import Site, RequestSite
