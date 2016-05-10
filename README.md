@@ -9,7 +9,7 @@ Heavy inspiration came from Christian Joergensen
 and Derek Willis (<http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/>).
 
 This project is maintained and contributions will be happily accepted, but no feature developments
-are planned. It has been used successfully with Django 1.3 - 1.7. At the moment, only Python 2
+are planned. It has been used successfully with Django 1.3 - 1.9. At the moment, only Python 2
 is supported.
 
 ## Installation ##
