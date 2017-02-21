@@ -21,7 +21,7 @@ is supported.
 ### Overview ###
 
 Please see Django's syndication feed framework documentation, django_cal imitates its
-behavior: <https://docs.djangoproject.com/en/1.6/ref/contrib/syndication/>.
+behavior: <https://docs.djangoproject.com/en/dev/ref/contrib/syndication/>.
 
 
 ### Defining event properties ###
