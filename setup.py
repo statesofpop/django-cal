@@ -2,16 +2,18 @@ from setuptools import setup
 
 setup(
     name='django-cal',
-    version='0.2.3',
+    version='0.3.0',
     author='Maik Hoepfel',
-    author_email = 'm@maikhoepfel.de',
-    description = ('Django app to enable exporting of events to iCalendar files.'),
-    packages=['django_cal',],
+    author_email='m@maikhoepfel.de',
+    description=(
+        'Django app to enable exporting of events to iCalendar files.'
+    ),
+    packages=['django_cal', ],
     keywords='Django iCalendar iCal ics vobject',
-    url = 'http://github.com/statesofpop/django-cal',
+    url='http://github.com/statesofpop/django-cal',
     license='BSD',
     install_requires=[
-        'python-dateutil < 2.0',  # dateutil (used by vobject) 2+ only works with Python 3
+        'python-dateutil',
         'vobject',
         'Django',
     ],
@@ -22,6 +24,5 @@ setup(
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2 :: Only',
     ],
 )
