@@ -1,14 +1,16 @@
+from __future__ import unicode_literals, absolute_import
+
 import vobject
 from django.db.models import ObjectDoesNotExist
 from django.http import HttpResponse, Http404
-from django.utils.encoding import force_unicode
 from django.conf import settings
+from django.utils import six
 
 from django.contrib.syndication.views import add_domain
 import django
 
 
-if add_domain.func_code.co_argcount < 3:
+if add_domain.__code__.co_argcount < 3:
     # Django <= 1.2
     # Source: Django 1.4 django.contrib.syndication.views
     from django.utils.encoding import iri_to_uri
@@ -16,14 +18,17 @@ if add_domain.func_code.co_argcount < 3:
     def add_domain(domain, url, secure=False):
         protocol = 'https' if secure else 'http'
         if url.startswith('//'):
-            # Support network-path reference (see #16753) - RSS requires a protocol
-            url = '%s:%s' % (protocol, url)
-        elif not (url.startswith('http://')
-                or url.startswith('https://')
-                or url.startswith('mailto:')):
-            # 'url' must already be ASCII and URL-quoted, so no need for encoding
-            # conversions here.
-            url = iri_to_uri(u'%s://%s%s' % (protocol, domain, url))
+            # Support network-path reference (see #16753)
+            # RSS requires a protocol
+            url = '{}:{}'.format(protocol, url)
+        elif (
+            not url.startswith('http://')
+            or url.startswith('https://')
+            or url.startswith('mailto:')
+        ):
+            # 'url' must already be ASCII and URL-quoted, so no need
+            # for encoding conversions here.
+            url = iri_to_uri('{}://{}{}'.format(protocol, domain, url))
         return url
 
 if 'django.contrib.sites' in settings.INSTALLED_APPS:
@@ -68,6 +73,7 @@ EVENT_ITEMS = (
     ('rruleset', 'item_rruleset')
 )
 
+
 class Events(object):
     def __call__(self, request, *args, **kwargs):
         """ Makes Events callable for easy use in your urls.py """
@@ -76,18 +82,22 @@ class Events(object):
         except ObjectDoesNotExist:
             raise Http404('Events object does not exist.')
         ical = self.get_ical(obj, request)
-        response = HttpResponse(ical.serialize(),
-            content_type='text/calendar;charset=' + settings.DEFAULT_CHARSET)
+        response = HttpResponse(
+            ical.serialize(),
+            content_type='text/calendar;charset={}'.format(
+                settings.DEFAULT_CHARSET
+            ))
         filename = self.__get_dynamic_attr('filename', obj)
         # following added for IE, see
         # http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/
-        response['Filename'] = filename 
-        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        response['Filename'] = filename
+        response['Content-Disposition'] = 'attachment; filename={}'.format(
+            filename
+        )
         return response
 
-
     def __get_dynamic_attr(self, attname, obj, default=None):
-        """ Returns first defined occurence of the following: 
+        """ Returns first defined occurence of the following:
                 self.$attname(obj)
                 self.$attname()
                 self.$attname
@@ -99,15 +109,14 @@ class Events(object):
         except AttributeError:
             return default
         if callable(attr):
-            # Check func_code.co_argcount rather than try/excepting the
-            # function and catching the TypeError, because something inside
-            # the function may raise the TypeError. This technique is more
-            # accurate.
-            if hasattr(attr, 'func_code'):
-                argcount = attr.func_code.co_argcount
-            else:
-                argcount = attr.__call__.func_code.co_argcount
-            if argcount == 2: # one argument is 'self'
+            # Check co_argcount rather than try/excepting the function and
+            # catching the TypeError, because something inside the function
+            # may raise the TypeError. This technique is more accurate.
+            try:
+                code = six.get_function_code(attr)
+            except AttributeError:
+                code = six.get_function_code(attr.__call__)
+            if code.co_argcount == 2:       # one argument is 'self'
                 return attr(obj)
             else:
                 return attr()
@@ -120,7 +129,7 @@ class Events(object):
         items = self.__get_dynamic_attr("items", obj)
         cal_name = self.__get_dynamic_attr("cal_name", obj)
         cal_desc = self.__get_dynamic_attr("cal_desc", obj)
-        # Add calendar name and description if set 
+        # Add calendar name and description if set
         if cal_name:
             cal.add('x-wr-calname').value = cal_name
         if cal_desc:
@@ -154,10 +163,10 @@ class Events(object):
         return None
 
     def item_summary(self, item):
-        return force_unicode(item)
+        return item
 
     def item_url(self, item):
         return getattr(item, 'get_absolute_url', lambda: None)()
 
     def filename(self, item):
-        return u"events.ics"
+        return "events.ics"

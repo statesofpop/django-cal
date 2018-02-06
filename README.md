@@ -1,6 +1,6 @@
 # django-cal #
 
-Django app to enable exporting of events to iCalendar files. 
+Django app to enable exporting of events to iCalendar files.
 Imitates behavior of django.contrib.syndication and is based upon vobject
 (<http://vobject.skyhouseconsulting.com/>).
 
@@ -9,13 +9,12 @@ Heavy inspiration came from Christian Joergensen
 and Derek Willis (<http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/>).
 
 This project is maintained and contributions will be happily accepted, but no feature developments
-are planned. It has been used successfully with Django 1.3 - 1.9. At the moment, only Python 2
-is supported.
+are planned. It has been used successfully with Django 1.3 - 1.11 and Python 2.7 & 3.6.
 
 ## Installation ##
 
     pip install django-cal
-    
+
 ## Documentation ##
 
 ### Overview ###
@@ -26,18 +25,18 @@ behavior: <https://docs.djangoproject.com/en/dev/ref/contrib/syndication/>.
 
 ### Defining event properties ###
 
-The following parameters work analagous to how they're implemented in 
+The following parameters work analagous to how they're implemented in
 django.contrib.syndication. That means, the framework checks in the following
-order: `self.$param(obj)`, `self.$param()`, `self.$param`; `obj` being the object 
+order: `self.$param(obj)`, `self.$param()`, `self.$param`; `obj` being the object
 returned by `self.get_object`.
-    
+
     items           Returns the list of events.
                     Must be set.
     filename        Filename of the file returned in the view.
                     Optional, defaults to 'events.ics'.
     cal_name        Name of the calendar.
                     Optional, defaults to None.
-    cal_desc        Description of the calendar. 
+    cal_desc        Description of the calendar.
                     Optional, defaults to None.
 
     item_summary    The "title" of the item.
@@ -45,7 +44,7 @@ returned by `self.get_object`.
 
     item_end        Duration or end time of item.
     item_duration   Optional, defaults to None. Must not define both.
-    
+
     item_rruleset   Optional, defaults to None.
                     Should return dateutil.rruleset instance
                     for recurrent events.
@@ -77,8 +76,8 @@ Define either duration or end time, never both.
 
 ## Timezones ###
 
-If you need timezone support, use `pytz.timezone` to create an "aware" datetime object for 
-`item_start` and `item_end` and set it to UTC. A user reported that Gmail, Outlook, 
+If you need timezone support, use `pytz.timezone` to create an "aware" datetime object for
+`item_start` and `item_end` and set it to UTC. A user reported that Gmail, Outlook,
 Apple Mail, etc. are properly displaying it in the user's local timezone upon receipt.
 
 Example::
@@ -93,7 +92,7 @@ aware_datetime = loc_dt.astimezone(utc)
 
 ### Complex behavior ###
 
-`self.get_object` can be overriden to allow for more complex events, as is possible for
+`self.get_object` can be overridden to allow for more complex events, as is possible for
 [syndication feeds](https://docs.djangoproject.com/en/1.6/ref/contrib/syndication/#a-complex-example).
 
 ## Dependencies ##
