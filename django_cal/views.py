@@ -57,20 +57,26 @@ else:
 
 
 # Mapping of iCalendar event attributes to prettier names.
+# Last boolean indicates whether self.__get_dynamic_attr(key, item) should
+# return an iterable of return values (i.e., whether the key supports multiple
+# content lines).
 EVENT_ITEMS = (
-    ('uid', 'item_uid'),
-    ('dtstart', 'item_start'),
-    ('dtend', 'item_end'),
-    ('duration', 'item_duration'),
-    ('summary', 'item_summary'),
-    ('description', 'item_description'),
-    ('location', 'item_location'),
-    ('url', 'item_url'),
-    ('comment', 'item_comment'),
-    ('last-modified', 'item_last_modified'),
-    ('created', 'item_created'),
-    ('categories', 'item_categories'),
-    ('rruleset', 'item_rruleset')
+    ('uid', 'item_uid', False),
+    ('dtstart', 'item_start', False),
+    ('dtend', 'item_end', False),
+    ('duration', 'item_duration', False),
+    ('summary', 'item_summary', False),
+    ('description', 'item_description', False),
+    ('location', 'item_location', False),
+    ('url', 'item_url', False),
+    ('comment', 'item_comment', False),
+    ('status', 'item_status', False),
+    ('attendee', 'item_attendee', True),
+    ('organizer', 'item_organizer', False),
+    ('last-modified', 'item_last_modified', False),
+    ('created', 'item_created', False),
+    ('categories', 'item_categories', False),
+    ('rruleset', 'item_rruleset', False),
 )
 
 
@@ -124,6 +130,41 @@ class Events(object):
 
     def get_ical(self, obj, request):
         """ Returns a populated iCalendar instance. """
+        def add_content_line(event, vkey, ret_value):
+            """
+            Adds content line(s) as specified by vkey and ret_value to the
+            event.
+            ret_value is either a plain value, or a 2-tuple of 1) a value and
+            2) a dictionary of parameters.
+            """
+            # Optionally unpack parameter tuple.
+            if isinstance(ret_value, tuple):
+                (value, params) = ret_value
+            else:
+                value = ret_value
+                params = None
+
+            content_line = None
+            # Set content line value.
+            if value:
+                if vkey == 'rruleset':
+                    event.rruleset = value
+                else:
+                    if vkey == 'url' and current_site:
+                        value = add_domain(
+                            current_site.domain,
+                            value,
+                            request.is_secure(),
+                        )
+                    content_line = event.add(vkey)
+                    content_line.value = value
+            # Set content line parameters.
+            if params and content_line:
+                for p in params:
+                    parameter = params[p]
+                    content_line.params[p] = [parameter]
+            return
+
         cal = vobject.iCalendar()
         cal.add('method').value = 'PUBLISH'  # IE/Outlook needs this
         items = self.__get_dynamic_attr("items", obj)
@@ -142,19 +183,14 @@ class Events(object):
 
         for item in items:
             event = cal.add('vevent')
-            for vkey, key in EVENT_ITEMS:
-                value = self.__get_dynamic_attr(key, item)
-                if value:
-                    if vkey == 'rruleset':
-                        event.rruleset = value
-                    else:
-                        if vkey == 'url' and current_site:
-                            value = add_domain(
-                                current_site.domain,
-                                value,
-                                request.is_secure(),
-                            )
-                        event.add(vkey).value = value
+            for vkey, key, multiple in EVENT_ITEMS:
+                value_or_list = self.__get_dynamic_attr(key, item)
+                if multiple:
+                    for ret_value in value_or_list:
+                        add_content_line(event, vkey, ret_value)
+                else:
+                    ret_value = value_or_list
+                    add_content_line(event, vkey, ret_value)
         return cal
 
     # ONLY DEFAULT PARAMETERS FOLLOW #
