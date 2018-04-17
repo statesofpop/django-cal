@@ -8,8 +8,10 @@ Heavy inspiration came from Christian Joergensen
 (<http://www.technobabble.dk/2008/mar/06/exposing-calendar-events-using-icalendar-django/>)
 and Derek Willis (<http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/>).
 
-This project is maintained and contributions will be happily accepted, but no feature developments
-are planned. It has been used successfully with Django 1.3 - 1.11 and Python 2.7 & 3.6.
+This project is loosely maintained and contributions will be happily accepted, but no feature 
+developments are planned. 
+
+`django-cal` has been used successfully with Django 1.3 - 1.11 and Python 2.7 & 3.6.
 
 ## Installation ##
 
