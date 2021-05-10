@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='django-cal',
-    version='0.3.0',
+    version='0.3.1',
     author='Maik Hoepfel',
     author_email='m@maikhoepfel.de',
     description=(
