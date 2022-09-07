@@ -1,10 +1,9 @@
-from __future__ import unicode_literals, absolute_import
+import six
 
 import vobject
 from django.db.models import ObjectDoesNotExist
 from django.http import HttpResponse, Http404
 from django.conf import settings
-from django.utils import six
 
 from django.contrib.syndication.views import add_domain
 import django
