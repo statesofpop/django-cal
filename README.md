@@ -11,7 +11,7 @@ and Derek Willis (<http://blog.thescoop.org/archives/2007/07/31/django-ical-and-
 This project is loosely maintained and contributions will be happily accepted, but no feature 
 developments are planned. New maintainers are welcome.
 
-`django-cal` has been used successfully with Django 1.3 - 1.11 and Python 2.7 & 3.6.
+`django-cal` requires at least Django 1.7 and Python 3.7.
 
 ## Installation ##
 

@@ -6,53 +6,7 @@ from django.http import HttpResponse, Http404
 from django.conf import settings
 
 from django.contrib.syndication.views import add_domain
-import django
-
-
-if add_domain.__code__.co_argcount < 3:
-    # Django <= 1.2
-    # Source: Django 1.4 django.contrib.syndication.views
-    from django.utils.encoding import iri_to_uri
-
-    def add_domain(domain, url, secure=False):
-        protocol = 'https' if secure else 'http'
-        if url.startswith('//'):
-            # Support network-path reference (see #16753)
-            # RSS requires a protocol
-            url = '{}:{}'.format(protocol, url)
-        elif (
-            not url.startswith('http://')
-            or url.startswith('https://')
-            or url.startswith('mailto:')
-        ):
-            # 'url' must already be ASCII and URL-quoted, so no need
-            # for encoding conversions here.
-            url = iri_to_uri('{}://{}{}'.format(protocol, domain, url))
-        return url
-
-if 'django.contrib.sites' in settings.INSTALLED_APPS:
-    if django.VERSION >= (1, 7):
-        from django.contrib.sites.shortcuts import get_current_site
-    elif django.VERSION >= (1, 3):
-        # Django >= 1.3
-        from django.contrib.sites.models import get_current_site
-    else:
-        # Django <= 1.2
-        # Source: Django 1.4 django.contrib.sites.models
-        from django.contrib.sites.models import Site, RequestSite
-
-        def get_current_site(request):
-            """
-            Checks if contrib.sites is installed and returns either the current
-            ``Site`` object or a ``RequestSite`` object based on the request.
-            """
-            if Site._meta.installed:
-                current_site = Site.objects.get_current()
-            else:
-                current_site = RequestSite(request)
-            return current_site
-else:
-    get_current_site = None
+from django.contrib.sites.shortcuts import get_current_site
 
 
 # Mapping of iCalendar event attributes to prettier names.
@@ -134,10 +88,7 @@ class Events(object):
         if cal_desc:
             cal.add('x-wr-caldesc').value = cal_desc
 
-        if get_current_site:
-            current_site = get_current_site(request)
-        else:
-            current_site = None
+        current_site = get_current_site(request)
 
         for item in items:
             event = cal.add('vevent')
