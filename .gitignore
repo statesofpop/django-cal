@@ -2,3 +2,5 @@
 *.swp
 django_cal.egg-info/
 dist/
+TODO
+.idea
