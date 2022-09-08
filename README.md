@@ -9,7 +9,7 @@ Heavy inspiration came from Christian Joergensen
 and Derek Willis (<http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/>).
 
 This project is loosely maintained and contributions will be happily accepted, but no feature 
-developments are planned. 
+developments are planned. New maintainers are welcome.
 
 `django-cal` has been used successfully with Django 1.3 - 1.11 and Python 2.7 & 3.6.
 
@@ -102,3 +102,12 @@ aware_datetime = loc_dt.astimezone(utc)
   * [vObject](http://vobject.skyhouseconsulting.com/)
   * [dateutil](http://labix.org/python-dateutil/)
   * [Django](http://djangoproject.com/)
+
+
+# Contributor notes
+
+Uploading a new wheel happens with `hatchling` and `twine`::
+
+    $ python3 -m pip install --upgrade build twine
+    $ python3 -m build
+    $ python3 -m twine upload dist/*
