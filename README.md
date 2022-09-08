@@ -108,9 +108,11 @@ aware_datetime = loc_dt.astimezone(utc)
 
 Uploading a new wheel happens with `hatchling` and `twine`:
 
+First, update version number in `pyproject.toml`.
+
     $ black .
     $ git tag 0.x.x
     $ git push --tags
     $ python3 -m pip install --upgrade build twine
-    $ python3 -m build
+    $ rm dist/* && python3 -m build
     $ python3 -m twine upload dist/*
