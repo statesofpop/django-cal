@@ -1,7 +1,7 @@
 import datetime
-import django_cal
 from django_cal.views import Events
 import dateutil.rrule as rrule
+
 
 class Testevents(Events):
     def items(self):
