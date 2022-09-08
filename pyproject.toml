@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-cal"
+version = "0.4.0"
+authors = [
+  { name="Maik Hoepfel", email="m@maikhoepfel.de" },
+]
+description = "Django app to enable exporting of events to iCalendar files."
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    'License :: OSI Approved :: BSD License',
+    'Framework :: Django',
+    'Intended Audience :: Developers',
+    'Operating System :: OS Independent',
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+dependencies=[
+    'python-dateutil',
+    'vobject',
+]
+
+[project.urls]
+"Homepage" = "https://github.com/statesofpop/django-cal/"
+"Bug Tracker" = "https://github.com/statesofpop/django-cal/issues"
