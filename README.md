@@ -106,8 +106,11 @@ aware_datetime = loc_dt.astimezone(utc)
 
 # Contributor notes
 
-Uploading a new wheel happens with `hatchling` and `twine`::
+Uploading a new wheel happens with `hatchling` and `twine`:
 
+    $ black .
+    $ git tag 0.x.x
+    $ git push --tags
     $ python3 -m pip install --upgrade build twine
     $ python3 -m build
     $ python3 -m twine upload dist/*
