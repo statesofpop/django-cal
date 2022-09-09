@@ -13,5 +13,5 @@ We're grateful to those **CONTRIBUTORS**:
   - Tuk Bredsdorff
   - Alexander Yakovlev <ayakovlev@rambler.ru>
 
-Please feel free to add yourself to this list when you have contributed. 
+Please feel free to add yourself to this list when you have contributed.
 A list of all contributors can be found [at Github](https://github.com/statesofpop/django-cal/graphs/contributors).

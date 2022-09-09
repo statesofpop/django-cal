@@ -1,13 +1,9 @@
-import six
-
 import vobject
-from django.db.models import ObjectDoesNotExist
-from django.http import HttpResponse, Http404
 from django.conf import settings
-
-from django.contrib.syndication.views import add_domain
 from django.contrib.sites.shortcuts import get_current_site
-
+from django.contrib.syndication.views import add_domain
+from django.db.models import ObjectDoesNotExist
+from django.http import Http404, HttpResponse
 
 # Mapping of iCalendar event attributes to prettier names.
 EVENT_ITEMS = (
@@ -27,7 +23,7 @@ EVENT_ITEMS = (
 )
 
 
-class Events(object):
+class Events:
     def __call__(self, request, *args, **kwargs):
         """Makes Events callable for easy use in your urls.py"""
         try:
@@ -37,13 +33,13 @@ class Events(object):
         ical = self.get_ical(obj, request)
         response = HttpResponse(
             ical.serialize(),
-            content_type="text/calendar;charset={}".format(settings.DEFAULT_CHARSET),
+            content_type=f"text/calendar;charset={settings.DEFAULT_CHARSET}",
         )
         filename = self.__get_dynamic_attr("filename", obj)
         # following added for IE, see
         # http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/
         response["Filename"] = filename
-        response["Content-Disposition"] = "attachment; filename={}".format(filename)
+        response["Content-Disposition"] = f"attachment; filename={filename}"
         return response
 
     def __get_dynamic_attr(self, attname, obj, default=None):
@@ -63,9 +59,9 @@ class Events(object):
             # catching the TypeError, because something inside the function
             # may raise the TypeError. This technique is more accurate.
             try:
-                code = six.get_function_code(attr)
+                code = attr.__code__
             except AttributeError:
-                code = six.get_function_code(attr.__call__)
+                code = attr.__call__.__code__
             if code.co_argcount == 2:  # one argument is 'self'
                 return attr(obj)
             else:

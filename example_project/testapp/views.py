@@ -1,6 +1,8 @@
 import datetime
-from django_cal.views import Events
+
 import dateutil.rrule as rrule
+
+from django_cal.views import Events
 
 
 class Testevents(Events):
