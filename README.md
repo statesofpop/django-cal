@@ -2,9 +2,7 @@
 
 Django app to enable exporting of events to iCalendar files.
 Imitates behavior of django.contrib.syndication and is based upon
-[vobject](https://eventable.github.io/vobject/).
-
-Heavy inspiration came from
+[vobject](https://eventable.github.io/vobject/). Heavy inspiration came from
 [Christian Joergensen](http://www.technobabble.dk/2008/mar/06/exposing-calendar-events-using-icalendar-django/)
 and [Derek Willis](http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/).
 
@@ -13,16 +11,29 @@ developments are planned. New maintainers are welcome.
 
 `django-cal` requires at least Django 3.2 and Python 3.8.
 
-## Installation ##
-
-    pip install django-cal
-
 ## Documentation ##
 
 ### Overview ###
 
 Please see Django's syndication feed framework documentation, django_cal imitates its
 behavior: <https://docs.djangoproject.com/en/dev/ref/contrib/syndication/>.
+
+## Installation ##
+
+    pip install django-cal
+
+## Setting it up ##
+
+Define a custom Events class, and then wire it up directly in your `urls.py`.
+
+```
+    from testapp.events import Testevents
+
+    urlpatterns = patterns(
+    "",
+    (r"^ical$", Testevents()),
+    )
+```
 
 
 ### Defining event properties ###
@@ -99,7 +110,7 @@ aware_datetime = loc_dt.astimezone(utc)
 
 # Contributor notes
 
-# Set up dev environment
+## Set up dev environment
 
 In a virtual env:
 

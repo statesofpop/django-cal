@@ -39,7 +39,6 @@ tests = [
 max-line-length = 88
 statistics = true
 show-source = true
-exclude = ["/example_project/*"]
 # following https://github.com/psf/black/issues/429
 # These rules do not need to be checked as black fixes them automatically
 ignore = [
