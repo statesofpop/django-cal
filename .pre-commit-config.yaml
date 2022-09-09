@@ -1,0 +1,49 @@
+default_language_version:
+    python: python3.8
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+    - id: check-ast
+    - id: check-case-conflict
+    - id: check-merge-conflict
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: debug-statements
+    - id: check-added-large-files
+    - id: check-merge-conflict
+    - id: check-yaml
+    - id: check-json
+    - id: mixed-line-ending
+-   repo: local
+    hooks:
+        # Updates syntax for newer Python versions
+        -   id: pyupgrade
+            name: pyupgrade
+            entry: pyupgrade --py38-plus
+            language: system
+            types: [python]
+        # Python code linter
+        -   id: flake8
+            name: flake8
+            entry: flake8
+            language: system
+            types: [python]
+            require_serial: true
+            exclude: ^example_project
+        # Sort imports
+        -   id: isort
+            name: isort
+            entry: isort
+            require_serial: true
+            language: system
+            types: [python]
+            args: ['--filter-files']
+        # Code formatter
+        -   id: black
+            name: black
+            entry: black --target-version py38
+            language: system
+            types: [python]
+            require_serial: true

@@ -6,11 +6,11 @@ build-backend = "hatchling.build"
 name = "django-cal"
 version = "0.4.1"
 authors = [
-  { name="Maik Hoepfel", email="m@maikhoepfel.de" },
+    { name = "Maik Hoepfel", email = "m@maikhoepfel.de" },
 ]
 description = "Django app to enable exporting of events to iCalendar files."
 readme = "README.md"
-license = { file="LICENSE" }
+license = { file = "LICENSE" }
 requires-python = ">=3.7"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -21,11 +21,59 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]
-dependencies=[
+dependencies = [
     'python-dateutil',
     'vobject',
+]
+
+[project.optional-dependencies]
+tests = [
+    "pytest", "pre-commit", "isort", "black", "flake8", "pyupgrade"
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/statesofpop/django-cal/"
 "Bug Tracker" = "https://github.com/statesofpop/django-cal/issues"
+
+[tool.flake8]
+max-line-length = 88
+statistics = true
+show-source = true
+exclude = ["/example_project/*"]
+# following https://github.com/psf/black/issues/429
+# These rules do not need to be checked as black fixes them automatically
+ignore = [
+    "E101",
+    "E111",
+    "E114",
+    "E115",
+    "E116",
+    "E117",
+    "E121",
+    "E122",
+    "E123",
+    "E124",
+    "E125",
+    "E126",
+    "E127",
+    "E128",
+    "E129",
+    "E131",
+    "E133",
+    "E2",
+    "E3",
+    "E5",
+    "E701",
+    "E702",
+    "E703",
+    "E704",
+    "W1",
+    "W2",
+    "W3",
+    "W503",
+    "W504"]
+
+# Be careful with changing, config is engineered to be compatible with black code formatter.
+# https://black.readthedocs.io/en/stable/the_black_code_style.html
+[tool.isort]
+profile = "black"

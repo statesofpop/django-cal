@@ -11,7 +11,7 @@ and [Derek Willis](http://blog.thescoop.org/archives/2007/07/31/django-ical-and-
 This project is loosely maintained and contributions will be happily accepted, but no feature 
 developments are planned. New maintainers are welcome.
 
-`django-cal` requires at least Django 1.7 and Python 3.7.
+`django-cal` requires at least Django 3.2 and Python 3.8.
 
 ## Installation ##
 
@@ -98,6 +98,15 @@ aware_datetime = loc_dt.astimezone(utc)
 [syndication feeds](https://docs.djangoproject.com/en/dev/ref/contrib/syndication/#a-complex-example).
 
 # Contributor notes
+
+# Set up dev environment
+
+In a virtual env:
+
+    $ pip install .[tests]
+    $ pre-commit install
+
+## Upload a new version
 
 Uploading a new wheel happens with `hatchling` and `twine`:
 
