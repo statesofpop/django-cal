@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "django-cal"
-version = "0.4.1"
+version = "0.4.2"
 authors = [
     { name = "Maik Hoepfel", email = "m@maikhoepfel.de" },
 ]
@@ -28,12 +28,19 @@ dependencies = [
 
 [project.optional-dependencies]
 tests = [
-    "pytest", "pre-commit", "isort", "black", "flake8", "pyupgrade"
+    "pytest", "pytest-django", "pre-commit", "isort", "black", "flake8", "pyupgrade"
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/statesofpop/django-cal/"
 "Bug Tracker" = "https://github.com/statesofpop/django-cal/issues"
+
+[tool.pytest.ini_options]
+pythonpath = [".", "src"]
+# Declaring DJANGO_SETTINGS_MODULE here doesn't work because env variables have precedence.
+# https://pytest-django.readthedocs.io/en/latest/configuring_django.html#order-of-choosing-settings
+addopts = "--ds=tests.settings"
+django_find_project = false
 
 [tool.flake8]
 max-line-length = 88

@@ -31,6 +31,7 @@ class Events:
         except ObjectDoesNotExist:
             raise Http404("Events object does not exist.")
         ical = self.get_ical(obj, request)
+
         response = HttpResponse(
             ical.serialize(),
             content_type=f"text/calendar;charset={settings.DEFAULT_CHARSET}",
@@ -43,7 +44,7 @@ class Events:
         return response
 
     def __get_dynamic_attr(self, attname, obj, default=None):
-        """Returns first defined occurence of the following:
+        """Returns first defined occurrence of the following:
             self.$attname(obj)
             self.$attname()
             self.$attname
