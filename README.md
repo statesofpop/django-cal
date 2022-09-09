@@ -1,12 +1,12 @@
 # django-cal #
 
 Django app to enable exporting of events to iCalendar files.
-Imitates behavior of django.contrib.syndication and is based upon vobject
-(<http://vobject.skyhouseconsulting.com/>).
+Imitates behavior of django.contrib.syndication and is based upon 
+[vobject](https://eventable.github.io/vobject/).
 
-Heavy inspiration came from Christian Joergensen
-(<http://www.technobabble.dk/2008/mar/06/exposing-calendar-events-using-icalendar-django/>)
-and Derek Willis (<http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/>).
+Heavy inspiration came from 
+[Christian Joergensen](http://www.technobabble.dk/2008/mar/06/exposing-calendar-events-using-icalendar-django/)
+and [Derek Willis](http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/).
 
 This project is loosely maintained and contributions will be happily accepted, but no feature 
 developments are planned. New maintainers are welcome.
@@ -27,7 +27,7 @@ behavior: <https://docs.djangoproject.com/en/dev/ref/contrib/syndication/>.
 
 ### Defining event properties ###
 
-The following parameters work analagous to how they're implemented in
+The following parameters work analogous to how they're implemented in
 django.contrib.syndication. That means, the framework checks in the following
 order: `self.$param(obj)`, `self.$param()`, `self.$param`; `obj` being the object
 returned by `self.get_object`.
@@ -95,14 +95,7 @@ aware_datetime = loc_dt.astimezone(utc)
 ### Complex behavior ###
 
 `self.get_object` can be overridden to allow for more complex events, as is possible for
-[syndication feeds](https://docs.djangoproject.com/en/1.6/ref/contrib/syndication/#a-complex-example).
-
-## Dependencies ##
-
-  * [vObject](http://vobject.skyhouseconsulting.com/)
-  * [dateutil](http://labix.org/python-dateutil/)
-  * [Django](http://djangoproject.com/)
-
+[syndication feeds](https://docs.djangoproject.com/en/dev/ref/contrib/syndication/#a-complex-example).
 
 # Contributor notes
 
