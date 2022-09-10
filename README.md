@@ -6,8 +6,8 @@ Imitates behavior of django.contrib.syndication and is based upon
 [Christian Joergensen](http://www.technobabble.dk/2008/mar/06/exposing-calendar-events-using-icalendar-django/)
 and [Derek Willis](http://blog.thescoop.org/archives/2007/07/31/django-ical-and-vobject/).
 
-This project is loosely maintained and contributions will be happily accepted, but no feature
-developments are planned. New maintainers are welcome.
+This project is loosely maintained. Contributions will be happily accepted if they come
+with tests. No feature developments are planned. New maintainers are welcome.
 
 `django-cal` requires at least Django 3.2 and Python 3.8.
 
