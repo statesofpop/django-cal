@@ -123,9 +123,8 @@ Uploading a new wheel happens with `hatchling` and `twine`:
 
 First, update version number in `pyproject.toml`.
 
-    $ black .
-    $ git tag 0.x.x
-    $ git push --tags
+    $ bumpver update --patch
     $ python3 -m pip install --upgrade build twine
     $ rm dist/* && python3 -m build
     $ python3 -m twine upload dist/*
+    $ git push --tags
