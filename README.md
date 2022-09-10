@@ -11,6 +11,8 @@ with tests. No feature developments are planned. New maintainers are welcome.
 
 `django-cal` requires at least Django 3.2 and Python 3.8.
 
+[![pytest](https://github.com/statesofpop/django-cal/actions/workflows/pytest.yml/badge.svg)](https://github.com/statesofpop/django-cal/actions/workflows/pytest.yml)
+
 ## Documentation ##
 
 ### Overview ###
