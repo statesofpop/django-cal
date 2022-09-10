@@ -93,7 +93,7 @@ If you need timezone support, use `pytz.timezone` to create an "aware" datetime 
 `item_start` and `item_end` and set it to UTC. A user reported that Gmail, Outlook,
 Apple Mail, etc. are properly displaying it in the user's local timezone upon receipt.
 
-Example::
+Example:
 ```
 from pytz import timezone
 
@@ -121,10 +121,10 @@ In a virtual env:
 
 Uploading a new wheel happens with `hatchling` and `twine`:
 
-First, update version number in `pyproject.toml`.
-
     $ bumpver update --patch
     $ python3 -m pip install --upgrade build twine
     $ rm dist/* && python3 -m build
     $ python3 -m twine upload dist/*
-    $ git push --tags
+    $ git push --follow-tags
+
+Then create a release on Github.
