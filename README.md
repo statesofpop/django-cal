@@ -30,10 +30,12 @@ Define a custom Events class, and then wire it up directly in your `urls.py`.
     from testapp.events import Testevents
 
     urlpatterns = patterns(
-    "",
-    (r"^ical$", Testevents()),
+        "",
+        (r"^ical$", Testevents()),
     )
 ```
+
+See `tests/test_basics.py` for an example.
 
 
 ### Defining event properties ###
